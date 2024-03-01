@@ -1,7 +1,9 @@
 package com.optimised.services;
 
-import com.optimised.data.User;
-import com.optimised.data.UserRepository;
+import com.optimised.model.User;
+import com.optimised.repository.UserRepository;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +37,17 @@ public class UserService {
 
     public Page<User> list(Pageable pageable, Specification<User> filter) {
         return repository.findAll(filter, pageable);
+    }
+    public List<User> findAllUsers(){
+        return repository.findAll();
+    }
+
+    public List<User> findAllErrorEmails(){
+        return repository.findAllByEmailErrorIsTrue();
+    }
+
+    public List<User> findAllCsvEmails(){
+        return repository.findAllByEmailCsvIsTrue();
     }
 
     public int count() {

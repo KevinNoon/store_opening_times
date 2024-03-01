@@ -1,7 +1,7 @@
 package com.optimised.security;
 
-import com.optimised.data.User;
-import com.optimised.data.UserRepository;
+import com.optimised.model.User;
+import com.optimised.repository.UserRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;

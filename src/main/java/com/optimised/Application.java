@@ -1,6 +1,6 @@
 package com.optimised;
 
-import com.optimised.data.UserRepository;
+import com.optimised.repository.UserRepository;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.Theme;
 import javax.sql.DataSource;
@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.sql.init.SqlDataSourceScriptDatabaseInitializer;
 import org.springframework.boot.autoconfigure.sql.init.SqlInitializationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * The entry point of the Spring Boot application.
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Bean;
  * and some desktop browsers.
  *
  */
+@EnableScheduling
 @SpringBootApplication
 @Theme(value = "storeopeningtimes")
 public class Application implements AppShellConfigurator {

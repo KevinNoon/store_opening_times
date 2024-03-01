@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" name="store_opening_times">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <Jdbc name="databaseAppender" tableName="logs">
+            <DriverManager connectionString="jdbc:mysql://localhost:3306/store_times" driverClassName="com.mysql.cj.jdbc.Driver" username="optimised" password="Optimised1234" />
+            <Column name="User_id"  pattern="%user" isUnicode="false" />
+            <Column name="log_date" isEventTimestamp="true" />
+            <Column name="level" pattern="%level" isUnicode="false" />
+            <Column name="logger" pattern="%logger{36}" isUnicode="false"/>
+            <Column name="message" pattern="%message" isUnicode="false" />
+<!--            <Column name="exception" pattern="%exception"  isUnicode="false" />-->
+        </Jdbc>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="databaseAppender"/>
+            <AppenderRef ref="ConsoleAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
