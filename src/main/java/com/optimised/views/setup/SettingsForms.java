@@ -21,6 +21,7 @@ public class SettingsForms extends FormLayout {
 
   Checkbox enableAutoUpdate = new Checkbox("AutoUpdate");
   TimePicker updateTime = new TimePicker("updateTime");
+  TextField client = new TextField("Client");
   TextField csvChgName = new TextField("CsvChg Name");
   TextField csvChgSuffix = new TextField("CsvChg Suffix");
   TextField csvChgTempDir = new TextField("CsvChg Dir");
@@ -40,7 +41,7 @@ public class SettingsForms extends FormLayout {
   public SettingsForms(){
     addClassName("Settings-form");
     binder.bindInstanceFields(this);
-    add(enableAutoUpdate,updateTime,csvChgName,csvChgSuffix,csvChgTempDir,changeFlagReset,apiKey, createButtonsLayout());
+    add(enableAutoUpdate,updateTime,client,csvChgName,csvChgSuffix,csvChgTempDir,changeFlagReset,apiKey, createButtonsLayout());
   }
 
   private HorizontalLayout createButtonsLayout() {

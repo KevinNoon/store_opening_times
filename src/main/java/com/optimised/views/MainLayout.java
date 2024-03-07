@@ -5,7 +5,6 @@ import com.optimised.security.AuthenticatedUser;
 import com.optimised.services.InfoService;
 import com.optimised.services.UserService;
 import com.optimised.views.about.AboutView;
-import com.optimised.views.clients.ClientsView;
 import com.optimised.views.coreTimes.CoreTimesView;
 import com.optimised.views.counties.CountiesView;
 import com.optimised.views.exceptions.ExceptionTimeView;
@@ -186,7 +185,6 @@ public class MainLayout extends AppLayout {
         return new MenuItemInfo[]{
                 new MenuItemInfo("Core Hours", LineAwesomeIcon.TH_SOLID.create(), CoreTimesView.class), //
                 new MenuItemInfo("Exceptions", LineAwesomeIcon.USER.create(), ExceptionTimeView.class), //
-                new MenuItemInfo("Clients", LineAwesomeIcon.ADDRESS_CARD.create(), ClientsView.class), //
                 new MenuItemInfo("Counties", LineAwesomeIcon.GLOBE_EUROPE_SOLID.create(), CountiesView.class),
                 new MenuItemInfo("Store Systems", LineAwesomeIcon.COG_SOLID.create(), StoreSystemView.class), //
                 new MenuItemInfo("Places", LineAwesomeIcon.SHOPPING_BAG_SOLID.create(), PlaceView.class), //

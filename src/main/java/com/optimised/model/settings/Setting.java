@@ -15,6 +15,7 @@ import java.time.LocalTime;
 public class Setting {
     @Id
     private Long id;
+    private String client;
     private Boolean enableAutoUpdate;
     private LocalTime updateTime;
     private String csvChgTempDir;

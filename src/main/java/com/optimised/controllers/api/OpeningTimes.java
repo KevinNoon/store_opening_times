@@ -1,10 +1,8 @@
 package com.optimised.controllers.api;
 
-import com.optimised.model.Client;
 import com.optimised.model.CoreTimes;
 import com.optimised.model.ExceptionTime;
 import com.optimised.model.Place;
-import com.optimised.services.ClientService;
 import com.optimised.services.CoreTimesService;
 import com.optimised.services.ExceptionTimeService;
 import com.optimised.services.PlaceService;
