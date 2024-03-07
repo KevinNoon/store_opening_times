@@ -57,8 +57,9 @@ public class PlaceService {
     return placeRepo.findAll();
   }
 
-  public Place findByPlaceId(String placeId){
-    return placeRepo.findByPlaceId(placeId);
+  public Optional<Place> findByPlaceId(Long placeId){
+
+    return placeRepo.findById(placeId);
   }
 
 }

@@ -29,8 +29,7 @@ public class CsvController {
   @Autowired
   EmailService emailService;
 
-//  @Scheduled(cron = "0 01 * * ?") //Run at 01:00am every day
-    @Scheduled(fixedRate = 30000)
+  @Scheduled(cron = "0 01 * * ?") //Run at 01:00am every day
   private void sendEmail(){
     if (settingsService.getSettings().getChangeFlagReset().equals("CSV")){
       //Get all the new exceptions

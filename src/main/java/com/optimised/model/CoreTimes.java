@@ -35,20 +35,20 @@ public class CoreTimes {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  Integer storeNo;
-  String storeName;
-  LocalTime sunOpen;
-  LocalTime sunClose;
-  LocalTime monOpen;
-  LocalTime monClose;
-  LocalTime tueOpen;
-  LocalTime tueClose;
-  LocalTime wedOpen;
-  LocalTime wedClose;
-  LocalTime thuOpen;
-  LocalTime thuClose;
-  LocalTime friOpen;
-  LocalTime friClose;
-  LocalTime satOpen;
-  LocalTime satClose;
+  private Integer storeNo;
+  private String storeName;
+  private LocalTime sunOpen;
+  private LocalTime sunClose;
+  private LocalTime monOpen;
+  private LocalTime monClose;
+  private LocalTime tueOpen;
+  private LocalTime tueClose;
+  private LocalTime wedOpen;
+  private LocalTime wedClose;
+  private LocalTime thuOpen;
+  private LocalTime thuClose;
+  private LocalTime friOpen;
+  private LocalTime friClose;
+  private LocalTime satOpen;
+  private LocalTime satClose;
 }

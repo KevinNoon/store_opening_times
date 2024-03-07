@@ -26,6 +26,6 @@ public interface PlaceRepo extends JpaRepository<Place,Long> {
 
   List<Place> findAllByInuseIsTrue();
 
-  Place findByPlaceId(String placeId);
+  Optional<Place> findById(Long placeId);
 }
 

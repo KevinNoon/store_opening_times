@@ -11,10 +11,10 @@ import lombok.Data;
 public class EmailSettings {
   @Id
   private Long id;
-  String mailHost;
-  Integer mailPort;
-  String mailUser;
-  String mailPass;
-  Boolean mailAuth;
-  Boolean mailStartTLS;
+  private String mailHost;
+  private Integer mailPort;
+  private String mailUser;
+  private String mailPass;
+  private Boolean mailAuth;
+  private Boolean mailStartTLS;
 }

@@ -16,11 +16,11 @@ public class ExceptionTime {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  Integer storeNo;
-  String storeName;
-  LocalDate changeDate;
-  LocalTime open;
-  LocalTime close;
+  private Integer storeNo;
+  private String storeName;
+  private LocalDate changeDate;
+  private LocalTime open;
+  private LocalTime close;
   @EqualsAndHashCode.Exclude
   private Boolean changed;
 }

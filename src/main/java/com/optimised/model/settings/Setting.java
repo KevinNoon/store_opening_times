@@ -15,13 +15,13 @@ import java.time.LocalTime;
 public class Setting {
     @Id
     private Long id;
-    Boolean enableAutoUpdate;
-    LocalTime updateTime;
-    String csvChgTempDir;
+    private Boolean enableAutoUpdate;
+    private LocalTime updateTime;
+    private String csvChgTempDir;
     @NotEmpty
     @Length(min = 8,max = 16)
-    String csvChgSuffix;
-    String csvChgName;
-    String changeFlagReset;
-    String apiKey;
+    private String csvChgSuffix;
+    private String csvChgName;
+    private String changeFlagReset;
+    private String apiKey;
 }

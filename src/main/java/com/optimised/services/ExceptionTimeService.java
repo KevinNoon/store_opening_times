@@ -21,6 +21,11 @@ public class ExceptionTimeService {
     return execptionTimeRepo.findByStoreNo(storeNo);
   }
 
+  public Optional<ExceptionTime> findById(Long id){
+    return execptionTimeRepo.findById(id);
+
+  }
+
   public void save(ExceptionTime execptionTime){
     ExceptionTime exceptionTimeDB = execptionTimeRepo.findByStoreNoAndChangeDate(execptionTime.getStoreNo(),execptionTime.getChangeDate());
     if (exceptionTimeDB != null){
