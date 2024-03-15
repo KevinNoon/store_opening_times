@@ -35,18 +35,24 @@ public class PlaceService {
     } else {
       return placeRepo.filterByNameAndAddress(searchName,searchAddress);
     }
+  }
 
+  public List<Place> findAllPlacesByNameAndAddressAndInuse(String searchName, String searchAddress){
+    if ((searchName == null && searchAddress.isEmpty())) {
+      return placeRepo.findAll();
+    } else {
+      return placeRepo.filterByNameAndAddressAAndInuse(searchName,searchAddress);
+    }
   }
 
   public Place findPlaceByName(String searchName){
       return placeRepo.findFirstByName(searchName);
   }
 
-
-  public List<Place> findPlaceBySiteNo(Integer storeNo){
+  public Place findPlaceBySiteNo(Integer storeNo){
     if (placeRepo.findFirstByStoreNo(storeNo) != null){
       return placeRepo.findFirstByStoreNo(storeNo);}
-    else {return placeRepo.findAll();}
+    else {return new Place();}
   }
 
   public List<Place> findAllByInUseIsTrue(){

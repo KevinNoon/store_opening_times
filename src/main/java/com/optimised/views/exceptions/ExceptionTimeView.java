@@ -1,8 +1,11 @@
 package com.optimised.views.exceptions;
 
+import com.optimised.controllers.email.CsvController;
+import com.optimised.googleApi.GooglePlaces;
 import com.optimised.model.ExceptionTime;
 import com.optimised.services.CoreTimesService;
 import com.optimised.services.ExceptionTimeService;
+import com.optimised.services.PlaceService;
 import com.optimised.tools.Excel;
 import com.optimised.views.MainLayout;
 import com.vaadin.flow.component.Component;
@@ -18,7 +21,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @RolesAllowed({"ADMIN","USER"})
 @PageTitle("Exceptions")
@@ -26,21 +30,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ExceptionTimeView extends VerticalLayout {
 
     Excel excel;
+    GooglePlaces googlePlaces;
 
     Grid<ExceptionTime> grid = new Grid<>(ExceptionTime.class);
     ExceptionTimeForm form;
     final CoreTimesService coreTimesService;
     final ExceptionTimeService exceptionTimeService;
-    Button updateButton = new Button("Update");
+    final PlaceService placeService;
+    Button updateButton = new Button("Update from CSV");
     Button addExceptionButton = new Button("Add Exception");
     Button createCsvButton = new Button("Create CSV");
+    Button updateFromGoogle = new Button("Update from Google");
     Checkbox showExceptionBeforeNow = new Checkbox("Show Exception Before Now");
     private final Span errorField;
     private final Span updateCompleteField;
 
-    public ExceptionTimeView(CoreTimesService coreTimesService, ExceptionTimeService exceptionTimeService){
+    public ExceptionTimeView(CoreTimesService coreTimesService, ExceptionTimeService exceptionTimeService, GooglePlaces googlePlaces, PlaceService placeService){
         this.coreTimesService = coreTimesService;
         this.exceptionTimeService = exceptionTimeService;
+        this.googlePlaces = googlePlaces;
+        this.placeService = placeService;
         excel = new Excel(this.coreTimesService, this.exceptionTimeService);
         errorField = new Span();
         errorField.setVisible(false);
@@ -80,7 +89,22 @@ public class ExceptionTimeView extends VerticalLayout {
 
         createCsvButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         createCsvButton.addClickListener(click -> {
-            excel.createCsv(exceptionTimeService.findByChanged());});
+            List<ExceptionTime> exceptionTimes = exceptionTimeService.findByChanged();
+            if (exceptionTimes.size() > 0) {
+                for (ExceptionTime e:exceptionTimes
+                     ) {
+                    String systemType = placeService.findPlaceBySiteNo(e.getStoreNo()).getStoreSystem();
+                    e.setSystemType(systemType);
+                }
+                excel.createCsv(exceptionTimes);
+            }
+        });
+
+        updateFromGoogle.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        updateFromGoogle.addClickListener(event -> {
+            googlePlaces.runGetPlaceDetails();
+        } );
+
         showExceptionBeforeNow.addClickListener(e -> updateList());
 
         Dialog dialog = new Dialog();
@@ -97,7 +121,7 @@ public class ExceptionTimeView extends VerticalLayout {
             updateCompleteField.setVisible(false);
             dialog.open();
         });
-        var toolbar = new HorizontalLayout(addExceptionButton,updateButton,createCsvButton,showExceptionBeforeNow);
+        var toolbar = new HorizontalLayout(addExceptionButton,updateButton,createCsvButton,updateFromGoogle,showExceptionBeforeNow);
         return toolbar;
     }
 

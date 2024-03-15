@@ -26,7 +26,7 @@ public class AboutView extends VerticalLayout {
         H2 header = new H2("Optimised Store Times");
         header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
         add(header);
-        add(new Paragraph("Version V1.0 🤗"));
+        add(new Paragraph("Version V1.2 🤗"));
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);

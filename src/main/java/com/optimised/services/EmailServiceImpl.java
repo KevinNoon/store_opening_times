@@ -56,10 +56,12 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(text);
 
             FileSystemResource file = new FileSystemResource(new File(pathToAttachment));
-            helper.addAttachment("Invoice", file);
+            helper.addAttachment("Exceptions", file);
 
             emailSender.send(message);
         } catch (jakarta.mail.MessagingException e) {
+            return e.getMessage();
+        } catch (Exception e){
             return e.getMessage();
         }
         return "OK";

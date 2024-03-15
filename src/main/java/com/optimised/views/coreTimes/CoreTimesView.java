@@ -1,7 +1,6 @@
 package com.optimised.views.coreTimes;
 
 import com.optimised.model.CoreTimes;
-import com.optimised.model.ExceptionTime;
 import com.optimised.services.CoreTimesService;
 import com.optimised.services.ExceptionTimeService;
 import com.optimised.tools.Excel;

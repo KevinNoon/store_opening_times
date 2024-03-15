@@ -21,8 +21,14 @@ public interface PlaceRepo extends JpaRepository<Place,Long> {
       "and lower(c.address) like lower(concat('%', :searchAddress, '%'))")
   List<Place> filterByNameAndAddress(@Param("searchName") String searchName, @Param("searchAddress") String searchAddress);
 
+  @Query("select c from Place c " +
+      "where lower(c.name) like lower(concat('%', :searchName, '%')) " +
+      "and lower(c.address) like lower(concat('%', :searchAddress, '%'))" +
+      "and c.inuse = true")
+  List<Place> filterByNameAndAddressAAndInuse(@Param("searchName") String searchName, @Param("searchAddress") String searchAddress);
+
   Place findFirstByName(String name);
-  List<Place> findFirstByStoreNo(Integer storeNo);
+  Place findFirstByStoreNo(Integer storeNo);
 
   List<Place> findAllByInuseIsTrue();
 

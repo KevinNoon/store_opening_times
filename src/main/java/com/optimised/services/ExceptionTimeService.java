@@ -15,7 +15,7 @@ public class ExceptionTimeService {
   ExceptionTimeRepo execptionTimeRepo;
 
   public List<ExceptionTime> findByChangeDateAfter(){
-    return execptionTimeRepo.findByChangeDateAfter(LocalDate.now());
+    return execptionTimeRepo.findByChangeDateAfter(LocalDate.now().minusDays(1l));
   }
   public ExceptionTime findByStoreNo(Integer storeNo){
     return execptionTimeRepo.findByStoreNo(storeNo);

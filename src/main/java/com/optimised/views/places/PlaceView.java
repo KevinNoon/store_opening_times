@@ -38,6 +38,7 @@ public class PlaceView extends VerticalLayout {
     TextField filterByAddress = new TextField();
     IntegerField filterByStoreNo = new IntegerField();
     Button update = new Button("Update Places");
+    Checkbox showNotInUse = new Checkbox("Show Not In Use");
     PlaceForm form;
     PlaceService placeService;
     GooglePlaces googlePlaces;
@@ -133,8 +134,11 @@ public class PlaceView extends VerticalLayout {
         update.addClickListener(e -> {
             googlePlaces.runGetPlace();
         });
+        showNotInUse.addClickListener(e -> {
+            updateList();
+        });
 
-        var toolbar = new HorizontalLayout(filterByStoreNo,filterByName,filterByAddress,update);
+        var toolbar = new HorizontalLayout(filterByStoreNo,filterByName,filterByAddress,update,showNotInUse);
         toolbar.addClassName("toolbar");
         return toolbar;
     }
@@ -151,7 +155,13 @@ public class PlaceView extends VerticalLayout {
     private void updateList() {
         if (!filterByStoreNo.isEmpty()){
             grid.setItems(placeService.findPlaceBySiteNo(filterByStoreNo.getValue()));
-        } else { grid.setItems(placeService.findAllPlacesByNameAndAddress(filterByName.getValue(),filterByAddress.getValue()));}
+        } else {
+            if (showNotInUse.getValue()) {
+                grid.setItems(placeService.findAllPlacesByNameAndAddress(filterByName.getValue(), filterByAddress.getValue()));
+            } else {
+                grid.setItems(placeService.findAllPlacesByNameAndAddressAndInuse(filterByName.getValue(), filterByAddress.getValue()));
+            }
+        }
     }
 
     private void closeEditor() {

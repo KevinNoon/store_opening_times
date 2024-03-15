@@ -26,17 +26,14 @@ public class SettingsView extends VerticalLayout {
   SettingsForms form;
 
   SettingsService settingsService;
-  GooglePlaces googlePlaces;
 
-  public SettingsView(SettingsService settingsService, GooglePlaces googlePlaces){
+  public SettingsView(SettingsService settingsService){
     this.settingsService = settingsService;
-    this.googlePlaces = googlePlaces;
     addClassName("list-view");
     setSizeFull();
     configureGrid();
     configureForm();
     add(getContent());
-    add(createButtons());
     updateList();
     closeEditor();
   }
@@ -44,7 +41,7 @@ public class SettingsView extends VerticalLayout {
   private void configureGrid() {
     grid.addClassNames("Setting-grid");
     grid.setSizeFull();
-    grid.setColumns("updateTime","enableAutoUpdate","csvChgName","csvChgSuffix","csvChgTempDir","changeFlagReset","apiKey");
+    grid.setColumns("client","updateTime","enableAutoUpdate","csvChgName","csvChgSuffix","csvChgTempDir","changeFlagReset","apiKey");
     grid.getColumns().forEach(col -> col.setAutoWidth(true));
     grid.asSingleSelect().addValueChangeListener(event -> editSetting(event.getValue()));
     grid.addThemeVariants(GridVariant.LUMO_ROW_STRIPES);
@@ -64,22 +61,6 @@ public class SettingsView extends VerticalLayout {
     content.addClassNames("content");
     content.setSizeFull();
     return content;
-  }
-
-  private HorizontalLayout createButtons(){
-    Button updateStores = new Button("Update Stores");
-    updateStores.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    updateStores.addClickListener(event -> {
-      googlePlaces.runGetPlace();
-    });
-    Button updateStoreDetails = new Button("Update Store Details");
-    updateStoreDetails.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-    updateStoreDetails.addClickListener(event -> {
-      googlePlaces.runGetPlaceDetails();
-    } );
-
-    HorizontalLayout buttons = new HorizontalLayout(updateStores,updateStoreDetails);
-    return buttons;
   }
 
   private void updateList() {

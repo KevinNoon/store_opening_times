@@ -2,9 +2,10 @@ package com.optimised.tools;
 
 import com.optimised.model.CoreTimes;
 import com.optimised.model.ExceptionTime;
-import com.optimised.security.AuthenticatedUser;
+import com.optimised.model.Place;
 import com.optimised.services.CoreTimesService;
 import com.optimised.services.ExceptionTimeService;
+import com.optimised.services.PlaceService;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.upload.Upload;
 import com.vaadin.flow.component.upload.receivers.MemoryBuffer;
@@ -13,8 +14,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
@@ -30,6 +31,7 @@ import java.util.List;
 @Service
 public class Excel {
   private static final Logger log = LogManager.getLogger(Excel.class);
+
   final CoreTimesService coreTimesService;
   final ExceptionTimeService exceptionTimeService;
 
@@ -55,7 +57,6 @@ public class Excel {
             Iterator<Sheet> sheetIterator = workbook.iterator();
             while (sheetIterator.hasNext()) {
               Sheet sheet = sheetIterator.next();
-              System.out.println(sheet.getSheetName());
               if (sheet.getSheetName().contains("CoreHours")) {
                 sheetFound = true;
                 //Iterate through each rows one by one
@@ -252,22 +253,27 @@ public class Excel {
 
   public static String createCsv(List<ExceptionTime> changedTimes){
    // List<ExceptionTime> changedTimes = exceptionTimeService.findByChanged();
+
+
     String timeStamp = LocalDateTime.now().toString().replace("-","").replace(":","");
     String fileName = "Exception" + timeStamp.substring(0,timeStamp.indexOf(".")) + ".csv";
     try {
       BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-      writer.write("StoreName,Event,occupancy,Start hr,Start Min,End hr,End Min,Day Start,Month Start,	Year Start\n"
+      writer.write("StoreName,Event,occupancy,Start hr,Start Min,End hr,End Min,Day Start,Month Start,Year Start, System\n"
       );
       for (ExceptionTime et : changedTimes
       ) {
-        boolean occpancy = et.getOpen() != et.getClose();
-        writer.write(et.getStoreName() + "," +
-            "Ev" + et.getChangeDate().toString().replace("-", "") + et.getStoreNo()
-            + "," +
-            occpancy + "," + et.getOpen().getHour() + "," + et.getOpen().getMinute()
-            + "," + et.getClose().getHour() + "," + et.getClose().getMinute()
-            + "," + et.getChangeDate().getDayOfMonth() + "," + et.getChangeDate().getMonthValue() + "," + et.getChangeDate().getYear() +"\n"
-        );
+        if (!et.getStoreNo().equals(null)) {
+          boolean occpancy = et.getOpen() != et.getClose();
+
+          writer.write(et.getStoreName() + "," +
+              "Ev" + et.getChangeDate().toString().replace("-", "") + et.getStoreNo()
+              + "," +
+              occpancy + "," + et.getOpen().getHour() + "," + et.getOpen().getMinute()
+              + "," + et.getClose().getHour() + "," + et.getClose().getMinute()
+              + "," + et.getChangeDate().getDayOfMonth() + "," + et.getChangeDate().getMonthValue() + "," + et.getChangeDate().getYear() + "," + et.getSystemType() + "\n"
+          );
+        }
       }
       writer.close();
     }catch (IOException e){

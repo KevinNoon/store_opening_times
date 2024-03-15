@@ -4,6 +4,7 @@ import com.optimised.model.ExceptionTime;
 import com.optimised.model.User;
 import com.optimised.services.EmailService;
 import com.optimised.services.ExceptionTimeService;
+import com.optimised.services.PlaceService;
 import com.optimised.services.UserService;
 import com.optimised.services.settings.SettingsService;
 import com.optimised.tools.Excel;
@@ -28,13 +29,22 @@ public class CsvController {
   UserService userService;
   @Autowired
   EmailService emailService;
+  @Autowired
+  PlaceService placeService;
 
-  @Scheduled(cron = "0 01 * * * ?") //Run at 01:00am every day
+
+  //@Scheduled(cron = "0 0 01 * * ?") //Run at 01:00am every day
+  @Scheduled(fixedRate = 60000) //Test
   private void sendEmail(){
     if (settingsService.getSettings().getChangeFlagReset().equals("CSV")){
       //Get all the new exceptions
       List<ExceptionTime> exceptionTimes = exceptionTimeService.findByChanged();
       if (exceptionTimes.size() > 0){
+        for (ExceptionTime e:exceptionTimes
+        ) {
+          String systemType = placeService.findPlaceBySiteNo(e.getStoreNo()).getStoreSystem();
+          e.setSystemType(systemType);
+        }
         String fileName = Excel.createCsv(exceptionTimes);
         List<User> users = userService.findAllCsvEmails();
         if (users.size() > 0){
@@ -58,6 +68,12 @@ public class CsvController {
             } catch (MessagingException e) {
               log.error(e.getMessage());
             }
+          }
+        } else {
+          //Reset the change flag
+          for (ExceptionTime et:exceptionTimes
+          ) {
+            exceptionTimeService.setChangedFalse(et);
           }
         }
       }

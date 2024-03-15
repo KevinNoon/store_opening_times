@@ -23,4 +23,5 @@ public class ExceptionTime {
   private LocalTime close;
   @EqualsAndHashCode.Exclude
   private Boolean changed;
+  private String systemType;
 }
